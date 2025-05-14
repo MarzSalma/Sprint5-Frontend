@@ -1,0 +1,60 @@
+<div class="container">
+  <div>
+    <h2>Modifier un Joueur :</h2>
+  </div>
+  <form>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>ID Joueur</label>
+      <input
+        readonly
+        type="text"
+        [(ngModel)]="currentJoueur.idJoueur"
+        name="idJoueur"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom Joueur</label>
+      <input
+        type="text"
+        [(ngModel)]="currentJoueur.nomJoueur"
+        name="nomJoueur"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Age</label>
+      <input
+        type="number"
+        [(ngModel)]="currentJoueur.age"
+        name="age"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date de naissance</label>
+      <input
+        type="date"
+        [ngModel]="currentJoueur.dateNaissance | date : 'yyyy-MM-dd'"
+        (ngModelChange)="currentJoueur.dateNaissance = $event"
+        name="dateNaissance"
+        class="form-control"
+      />
+    </div>
+    <select
+      class="form-control form-control-lg"
+      id="idEquipe"
+      name="idEquipe"
+      [(ngModel)]="updateIdEquipe"
+    >
+      @for(eq of equipes; track eq.idEquipe) {
+      <option [value]="eq.idEquipe">{{ eq.nomEquipe }}</option>
+      }
+    </select>
+    <div class="mt-2">
+      <button type="submit" (click)="updateJoueur()" class="btn btn-success">
+        Modifer
+      </button>
+    </div>
+  </form>
+</div>

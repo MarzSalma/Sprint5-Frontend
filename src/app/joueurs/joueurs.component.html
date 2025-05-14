@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="card shadow mb-4">                   
+    <div class="card-body"> 
+     <table class="table table-striped">
+        <tr> 
+          <th>ID</th>
+          <th>Nom Joueur</th> 
+          <th>Âge</th>  
+          <th>Date de Naissance</th> 
+          <th>Équipe</th>
+        </tr>          
+
+        @for (joueur of joueurs; track joueur.idJoueur)
+        {
+          <tbody>
+            <tr>
+              <td>{{ joueur.idJoueur }}</td>
+              <td>{{ joueur.nomJoueur }}</td>
+              <td>{{ joueur.age }}</td>
+              <td>{{ joueur.dateNaissance | date:'dd/MM/yyyy' }}</td>
+
+              @if(joueur.equipe) {
+                <td>{{ joueur.equipe.nomEquipe }}</td>
+              }
+              @else {
+                <td>PAS D'ÉQUIPE</td>
+              }
+
+              @if(authService.isAdmin()) {
+                <td>
+                  <a class="btn btn-danger" (click)="supprimerJoueur(joueur)">Supprimer</a>
+                </td> 
+                <td>
+                  <a class="btn btn-success" [routerLink]="['/updateJoueur', joueur.idJoueur]">Modifier</a>
+                </td>
+              }
+            </tr>                                    
+          </tbody>
+        }   
+     </table>
+    </div>
+  </div>
+</div>
