@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { EquipeWrapped } from '../model/EquipeWrapped.model';
+import { AuthService } from './auth.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -18,7 +19,7 @@ export class JoueurService {
   joueur!: Joueur;
   joueurs!: Joueur[];
   equipes!: Equipe[];
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     /*this.equipes = [
       {
         idEquipe: 1,
@@ -80,29 +81,28 @@ export class JoueurService {
     ];*/
   }
   listerJoueurs(): Observable<Joueur[]> {
-    return this.http.get<Joueur[]>(this.apiURL);
+    return this.http.get<Joueur[]>(this.apiURL + '/all');
   }
 
   ajouterJoueur(joueur: Joueur): Observable<Joueur> {
-    return this.http.post<Joueur>(this.apiURL, joueur, httpOptions);
+    return this.http.post<Joueur>(this.apiURL + '/addjoueur', joueur);
   }
   supprimerJoueur(id: number) {
-    //supprimer le produit prod du tableau produits
-    const url = `${this.apiURL}/${id}`;
-    return this.http.delete(url, httpOptions);
+    const url = `${this.apiURL}/deljoueur/${id}`;
+    return this.http.delete(url);
   }
   consulterJoueur(id: number): Observable<Joueur> {
-    const url = `${this.apiURL}/${id}`;
+    const url = `${this.apiURL}/getbyid/${id}`;
     return this.http.get<Joueur>(url);
   }
   updateJoueur(joueur: Joueur): Observable<Joueur> {
-    return this.http.put<Joueur>(this.apiURL, joueur, httpOptions);
+    return this.http.put<Joueur>(this.apiURL + '/updatejoueur', joueur);
   }
   listerEquipes(): Observable<EquipeWrapped> {
     return this.http.get<EquipeWrapped>(this.apiURLeq);
   }
   consulterEquipe(id: number): Equipe {
-    return this.equipes.find((e) => e.idEquipe == id)!;
+    return this.equipes.find((equipe) => equipe.idEquipe == id)!;
   }
 
   rechercherParEquipe(idEquipe: number): Observable<Joueur[]> {
